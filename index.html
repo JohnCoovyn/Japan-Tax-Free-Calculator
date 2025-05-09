@@ -2,60 +2,52 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>日本免税价格计算器</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日本免税计算器</title>
   <style>
     body {
       font-family: sans-serif;
-      background-color: #f4f4f8;
-      padding: 2em;
-      max-width: 500px;
+      padding: 1em;
+      margin: 0;
+    }
+    .container {
+      max-width: 480px;
       margin: auto;
-    }
-    h2 {
-      text-align: center;
-    }
-    label, input, button {
-      font-size: 1.2em;
+      padding: 1em;
+      background: #f9f9f9;
+      border-radius: 10px;
     }
     input, button {
-      padding: 0.5em;
       width: 100%;
-      margin-top: 1em;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      padding: 12px;
+      font-size: 1rem;
+      margin-top: 0.5em;
     }
-    .result {
-      margin-top: 1.5em;
-      font-size: 1.3em;
-      text-align: center;
-      color: #2c3e50;
+    #result {
+      margin-top: 1em;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-
-  <h2>日本免税价格计算器</h2>
-
-  <label for="taxIncludedPrice">请输入含税价格（円）：</label>
-  <input type="number" id="taxIncludedPrice" placeholder="例如：11000" />
-
-  <button onclick="calculateTaxFree()">计算免税价格</button>
-
-  <div class="result" id="result"></div>
+  <div class="container">
+    <h2>日本免税计算器</h2>
+    <label for="price">商品含税价格（含 10% 消费税）：</label>
+    <input type="number" id="price" placeholder="例如：1100">
+    <button onclick="calculate()">计算免税价</button>
+    <div id="result"></div>
+  </div>
 
   <script>
-    function calculateTaxFree() {
-      const price = parseFloat(document.getElementById('taxIncludedPrice').value);
-      if (isNaN(price) || price <= 0) {
-        document.getElementById('result').innerHTML = "请输入有效的金额。";
+    function calculate() {
+      const price = parseFloat(document.getElementById('price').value);
+      if (isNaN(price)) {
+        document.getElementById('result').textContent = '请输入有效数字';
         return;
       }
-
-      const taxFree = price / 1.10;
-      const formatted = taxFree.toLocaleString(undefined, {maximumFractionDigits: 0});
-      document.getElementById('result').innerHTML = `免税后价格约为：<strong>${formatted} 円</strong>`;
+      const taxFreePrice = price / 1.1;
+      document.getElementById('result').textContent = '免税价格约为：¥' + taxFreePrice.toFixed(2);
     }
   </script>
-
 </body>
 </html>

@@ -57,10 +57,10 @@
     <h2>日本免税计算器</h2>
 
     <label for="price">请输入价格（日元）：</label>
-    <input type="number" id="price" placeholder="例如：1100" />
+    <input type="tel" inputmode="numeric" pattern="[0-9]*" id="price" placeholder="例如：1100" />
 
     <button style="background-color: #007acc;" onclick="calculate(true)">计算免税后价格</button>
-    <button style="background-color: #28a745; margin-top: 0.5em;" onclick="calculate(false)">计算不含税的价格</button>
+    <button style="background-color: #28a745; margin-top: 0.5em;" onclick="calculate(false)">计算已经免税的价格</button>
 
     <div id="result"></div>
   </div>
@@ -79,12 +79,12 @@
         const response = await fetch('https://open.er-api.com/v6/latest/JPY');
         const data = await response.json();
         const baseRate = data.rates.CNY;
-        const adjustedRate = baseRate * 1.0053; // 增加 0.53%
+        const adjustedRate = baseRate * 1.01; // 增加 1%
         const priceInCNY = taxFreePrice * adjustedRate;
 
         document.getElementById('result').innerHTML =
-          '免税价格约为：JPY¥' + taxFreePrice.toFixed(2) + '<br>' +
-          '折合人民币约为：CNY¥' + priceInCNY.toFixed(2);
+          '免税价格约为：¥' + taxFreePrice.toFixed(2) + '<br>' +
+          '折合人民币约为：¥' + priceInCNY.toFixed(2);
       } catch (error) {
         console.error('获取汇率失败：', error);
         document.getElementById('result').textContent = '无法获取实时汇率，请稍后再试。';

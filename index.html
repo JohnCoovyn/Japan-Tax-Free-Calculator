@@ -11,7 +11,6 @@
       padding: 0;
       background: #f2f2f2;
     }
-
     body {
       min-height: 100vh;
       height: 100dvh;
@@ -19,12 +18,10 @@
       padding-top: 1em;
       padding-left: 1em;
       padding-right: 1em;
-      /* 底部安全区+缓冲 */
       padding-bottom: calc(1em + env(safe-area-inset-bottom) + 16px);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC',
         'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
     }
-
     .container {
       display: flex;
       flex-direction: column;
@@ -35,11 +32,9 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.10);
       box-sizing: border-box;
       padding: 1em;
-      /* 同步高度以避免内容溢出被home indicator遮住 */
       max-height: calc(100dvh - 2em - env(safe-area-inset-bottom) - 16px);
       min-height: 0;
     }
-
     h2 {
       margin-top: 0;
       text-align: center;
@@ -75,7 +70,7 @@
       margin-top: 2em;
       background: #f8f9fa;
       border-top: 2px solid #e0e0e0;
-      border-radius: 0 0 12px 12px;  /* 底部两个圆角 小一点更和谐 */
+      border-radius: 0 0 20px 20px;  /* 底部两个圆角 20px，更圆滑、更和谐 */
       display: flex;
       flex-direction: column;
       min-height: 0;
@@ -139,15 +134,11 @@
 <body>
   <div class="container">
     <h2>日本免税计算器</h2>
-
     <label for="price">请输入价格（日元）：</label>
     <input type="tel" inputmode="numeric" pattern="[0-9]*" id="price" placeholder="例如：1100" />
-
     <button style="background-color: #007acc;" onclick="calculate(true)">计算免税后价格</button>
     <button style="background-color: #28a745; margin-top: 0.5em;" onclick="calculate(false)">计算不含税价格</button>
-
     <div id="result"></div>
-
     <div class="history-area">
       <div class="history-title">历史人民币计算记录</div>
       <div class="history-table-area">
@@ -158,45 +149,35 @@
               <th style="width:52%">折合人民币</th>
             </tr>
           </thead>
-          <tbody>
-          </tbody>
+          <tbody></tbody>
         </table>
       </div>
     </div>
   </div>
-
   <script>
-    // 存储历史记录
     const historyRecords = [];
-
     async function calculate(isTaxIncluded) {
       const price = parseFloat(document.getElementById('price').value);
       if (isNaN(price) || price <= 0) {
         document.getElementById('result').textContent = '请输入有效的价格数字';
         return;
       }
-
       const taxFreePrice = isTaxIncluded ? price / 1.1 : price;
-
       try {
         const response = await fetch('https://open.er-api.com/v6/latest/JPY');
         const data = await response.json();
         const baseRate = data.rates.CNY;
         const adjustedRate = baseRate * 1.0053;
         const priceInCNY = taxFreePrice * adjustedRate;
-
         document.getElementById('result').innerHTML =
           '免税价格约为：¥' + taxFreePrice.toFixed(2) + '<br>' +
           '折合人民币约为：¥' + priceInCNY.toFixed(2);
-
         addHistoryRecord(priceInCNY);
-
       } catch (error) {
         console.error('获取汇率失败：', error);
         document.getElementById('result').textContent = '无法获取实时汇率，请稍后再试。';
       }
     }
-
     function addHistoryRecord(cnyValue) {
       const displayValue = '¥' + cnyValue.toFixed(2);
       const now = new Date();
@@ -208,7 +189,6 @@
       historyRecords.push({ time: timeStr, value: displayValue });
       renderHistoryTable();
     }
-
     function renderHistoryTable() {
       const tbody = document.getElementById('historyTable').querySelector('tbody');
       tbody.innerHTML = '';

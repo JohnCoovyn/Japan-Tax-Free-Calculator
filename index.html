@@ -83,8 +83,8 @@
         const priceInCNY = taxFreePrice * adjustedRate;
 
         document.getElementById('result').innerHTML =
-          '免税价格约为：¥' + taxFreePrice.toFixed(2) + '<br>' +
-          '折合人民币约为：¥' + priceInCNY.toFixed(2);
+          '免税价格约为：JPY¥' + taxFreePrice.toFixed(2) + '<br>' +
+          '折合人民币约为：CNY¥' + priceInCNY.toFixed(2);
       } catch (error) {
         console.error('获取汇率失败：', error);
         document.getElementById('result').textContent = '无法获取实时汇率，请稍后再试。';

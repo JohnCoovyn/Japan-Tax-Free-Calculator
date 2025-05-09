@@ -242,9 +242,13 @@
           '折合人民币约为：¥' + priceInCNY.toFixed(2);
         addHistoryRecord(priceInCNY);
 
-        // 清空并保持输入框焦点
+        // 清空并最大化兼容保持光标
         priceInput.value = '';
-        priceInput.focus();
+        setTimeout(() => {
+          priceInput.focus();
+          priceInput.select();
+        }, 20);
+
       } catch (error) {
         console.error('获取汇率失败：', error);
         document.getElementById('result').textContent = '无法获取实时汇率，请稍后再试。';
